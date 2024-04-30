@@ -17,6 +17,26 @@ class TaskController extends Controller
 {
     use AuthorizesRequests, ValidatesRequests;
 
+    public function copyTask($id, Request $request){
+        $task = Task::find($id);
+
+        $this->validate($request, [
+            'tasktitle' =>'required|max:30',            
+            'taskdescription' =>'required|max:50',           
+            'taskfinishdate' =>'required', 
+        ]);
+
+        $task = new Task;
+        $task->tasktitle = $request->tasktitle;      
+        $task->taskdescription = $request->taskdescription;        
+        $task->taskfinishdate = $request->taskfinishdate;        
+        $task->users_id = $request->users_id;          
+                              
+        $task->save();
+
+        return response()->json($task);
+    }
+
     public function showAllTask(){
         return response()->json(Task::with('subtasks')->orderBy("id", "desc")->get());
     }

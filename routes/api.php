@@ -44,6 +44,8 @@ Route::get('/task', [TaskController::class, 'showAllTask']);
 
 Route::post('/task/register', [TaskController::class, 'registerTask']);
 
+Route::post('/task/{id}/copytask', [TaskController::class, 'copyTask']);
+
 Route::get('/task/{id}', [TaskController::class, 'showTask']);
 
 Route::put('/task/{id}/update', [TaskController::class, 'updateTask']);
