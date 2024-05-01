@@ -12,14 +12,13 @@ class Subtask extends Model
     protected $table = "subtask";
 
     protected $fillable = [
-        'id', 'task_id','subtasktitle','subtaskdescription','subtaskstatus',
+        'id', 'task_id', 'subtasktitle', 'subtaskdescription', 'subtaskstatus',
     ];
 
-    public function task(){
+    public function task()
+    {
         return $this->belongsTo(Task::class, 'task_id', 'id');
     }
-    
-    protected $hidden = [
-        
-    ];
+
+    protected $hidden = [];
 }

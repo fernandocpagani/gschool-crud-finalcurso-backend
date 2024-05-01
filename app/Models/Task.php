@@ -12,18 +12,18 @@ class Task extends Model
     protected $table = "task";
 
     protected $fillable = [
-        'id', 'user_id','tasktitle','taskdescription','taskfinishdate', 'taskstatus'
+        'id', 'user_id', 'tasktitle', 'taskdescription', 'taskfinishdate', 'taskstatus'
     ];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function subtasks(){
+    public function subtasks()
+    {
         return $this->hasMany(Subtask::class, 'task_id', 'id');
     }
-    
-    protected $hidden = [
-        
-    ];
+
+    protected $hidden = [];
 }

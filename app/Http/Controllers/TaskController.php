@@ -17,84 +17,105 @@ class TaskController extends Controller
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function copyTask($id, Request $request){
-        $task = Task::find($id);
+    public function showAllTaskLate()
+    {
+        $today = today()->format('Y-m-d');
 
-        $this->validate($request, [
-            'tasktitle' =>'required|max:30',            
-            'taskdescription' =>'required|max:50',           
-            'taskfinishdate' =>'required', 
-        ]);
-
-        $task = new Task;
-        $task->tasktitle = $request->tasktitle;      
-        $task->taskdescription = $request->taskdescription;        
-        $task->taskfinishdate = $request->taskfinishdate;        
-        $task->users_id = $request->users_id;          
-                              
-        $task->save();
-
-        return response()->json($task);
+        return response()->json(Task::with('subtasks')->Where('taskfinishdate', '<', $today)->orderBy("id", "desc")->get());
     }
 
-    public function showAllTask(){
+    public function showAllTaskToday()
+    {
+        $today = today()->format('Y-m-d');
+
+        return response()->json(Task::with('subtasks')->Where('taskfinishdate', '=', $today)->orderBy("id", "desc")->get());
+    }
+
+    public function showAllTask()
+    {
         return response()->json(Task::with('subtasks')->orderBy("id", "desc")->get());
     }
 
-    public function registerTask(Request $request){
+    public function copyTask($id, Request $request)
+    {
+        $task = Task::find($id);
 
         $this->validate($request, [
-            'tasktitle' =>'required|max:30',            
-            'taskdescription' =>'required|max:50',           
-            'taskfinishdate' =>'required', 
+            'tasktitle' => 'required|max:30',
+            'taskdescription' => 'required|max:50',
+            'taskfinishdate' => 'required',
         ]);
 
         $task = new Task;
-        $task->tasktitle = $request->tasktitle;      
-        $task->taskdescription = $request->taskdescription;        
-        $task->taskfinishdate = $request->taskfinishdate;        
-        $task->users_id = $request->users_id;    
-               
+        $task->tasktitle = $request->tasktitle;
+        $task->taskdescription = $request->taskdescription;
+        $task->taskfinishdate = $request->taskfinishdate;
+        $task->users_id = $request->users_id;
+
+        $task->save();
+
+        return response()->json($task);
+    }
+
+    public function registerTask(Request $request)
+    {
+
+        $this->validate($request, [
+            'tasktitle' => 'required|max:30',
+            'taskdescription' => 'required|max:50',
+            'taskfinishdate' => 'required',
+        ]);
+
+        $task = new Task;
+        $task->tasktitle = $request->tasktitle;
+        $task->taskdescription = $request->taskdescription;
+        $task->taskfinishdate = $request->taskfinishdate;
+        $task->users_id = $request->users_id;
+
         $task->save();
         return response()->json($task);
     }
 
-    public function showTask($id){
+    public function showTask($id)
+    {
         return response()->json(Task::find($id));
     }
 
-    public function updateTask($id, Request $request){
+    public function updateTask($id, Request $request)
+    {
         $task = Task::find($id);
-        $task->tasktitle = $request->tasktitle;        
-        $task->taskdescription = $request->taskdescription;        
-                                  
+        $task->tasktitle = $request->tasktitle;
+        $task->taskdescription = $request->taskdescription;
+
         $task->save();
 
         return response()->json($task);
     }
 
-    public function updateTaskStatus($id, Request $request){
-        $task = Task::find($id);             
-        $task->taskstatus = $request->taskstatus;  
-                            
-        $task->save();
-
-        return response()->json($task);
-    }
-
-    public function updateDate($id, Request $request){
+    public function updateTaskStatus($id, Request $request)
+    {
         $task = Task::find($id);
-        $task->taskfinishdate = $request->taskfinishdate;          
-                              
+        $task->taskstatus = $request->taskstatus;
+
         $task->save();
 
         return response()->json($task);
     }
 
-    public function deleteTask($id){
+    public function updateDate($id, Request $request)
+    {
+        $task = Task::find($id);
+        $task->taskfinishdate = $request->taskfinishdate;
+
+        $task->save();
+
+        return response()->json($task);
+    }
+
+    public function deleteTask($id)
+    {
         $user = Task::find($id);
         $user->delete();
         return response()->json("deletado com sucesso", 200);
     }
-    
 }

@@ -42,6 +42,10 @@ Route::delete('/user/{id}/delete', [UserController::class, 'deleteUser']);
 
 Route::get('/task', [TaskController::class, 'showAllTask']);
 
+Route::get('/tasktoday', [TaskController::class, 'showAllTaskToday']);
+
+Route::get('/tasklate', [TaskController::class, 'showAllTaskLate']);
+
 Route::post('/task/register', [TaskController::class, 'registerTask']);
 
 Route::post('/task/{id}/copytask', [TaskController::class, 'copyTask']);
@@ -71,6 +75,6 @@ Route::put('/subtask/{id}/updatesubtaskstatus', [SubtaskController::class, 'upda
 
 Route::delete('/subtask/{id}/delete', [SubtaskController::class, 'deleteSubtask']);
 
-Route::get('/subtask/search', [SubtaskController::class, 'search']); 
+Route::get('/subtask/search', [SubtaskController::class, 'search']);
 
-Route::get('/subtask/taskid/{task_id}', [SubtaskController::class, 'showTaskId']); 
+Route::get('/subtask/taskid/{task_id}', [SubtaskController::class, 'showTaskId']);

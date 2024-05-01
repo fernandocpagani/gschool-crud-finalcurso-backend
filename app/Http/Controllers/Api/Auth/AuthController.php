@@ -11,10 +11,11 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    
-    public function login(LoginRequest $request){
+
+    public function login(LoginRequest $request)
+    {
         $token = auth()->attempt($request->validated());
-        if($token){
+        if ($token) {
             return $this->responseWithToken($token, auth()->user());
         } else {
             return response()->json([
@@ -24,9 +25,10 @@ class AuthController extends Controller
         }
     }
 
-    public function register(RegistrationRequest $request){
+    public function register(RegistrationRequest $request)
+    {
         $user = User::create($request->validated());
-        if($user) {
+        if ($user) {
             $token = auth()->login($user);
             return $this->responseWithToken($token, $user);
         } else {
@@ -37,7 +39,8 @@ class AuthController extends Controller
         }
     }
 
-    public function responseWithToken($token, $user){
+    public function responseWithToken($token, $user)
+    {
         return response()->json([
             'status' => 'success',
             'user' => $user,

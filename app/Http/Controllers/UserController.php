@@ -17,27 +17,31 @@ class UserController extends Controller
 {
     use AuthorizesRequests, ValidatesRequests;
 
- 
-    public function showAllUsers(){
+
+    public function showAllUsers()
+    {
         return response()->json(User::all());
     }
- 
 
-    public function showUser($id){
+
+    public function showUser($id)
+    {
         return response()->json(User::find($id));
     }
 
-    public function updateUser($id, Request $request){
+    public function updateUser($id, Request $request)
+    {
         $user = User::find($id);
         $user->email = $request->email;
         $user->name = $request->name;
-        $user->password = $request->password;        
+        $user->password = $request->password;
 
         $user->save();
         return response()->json($user);
     }
 
-    public function deleteUser($id){
+    public function deleteUser($id)
+    {
         $user = User::find($id);
         $user->delete();
         return response()->json("deletado com sucesso", 200);
