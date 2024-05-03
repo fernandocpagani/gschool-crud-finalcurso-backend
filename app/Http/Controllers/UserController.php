@@ -17,12 +17,10 @@ class UserController extends Controller
 {
     use AuthorizesRequests, ValidatesRequests;
 
-
     public function showAllUsers()
     {
         return response()->json(User::all());
     }
-
 
     public function showUser($id)
     {

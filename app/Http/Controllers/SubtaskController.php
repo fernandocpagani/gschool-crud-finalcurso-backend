@@ -17,7 +17,6 @@ class SubtaskController extends Controller
 {
     use AuthorizesRequests, ValidatesRequests;
 
-
     public function search(Request $request)
     {
         $search = $request->input('search');
@@ -41,18 +40,17 @@ class SubtaskController extends Controller
 
     public function registerSubtask(Request $request)
     {
-
         $this->validate($request, [
             'subtasktitle' => 'required|max:35',
             'subtaskdescription' => 'required|max:50',
         ]);
-
         $subtask = new Subtask;
         $subtask->subtasktitle = $request->subtasktitle;
         $subtask->subtaskdescription = $request->subtaskdescription;
         $subtask->task_id = $request->task_id;
 
         $subtask->save();
+        
         return response()->json($subtask);
     }
 

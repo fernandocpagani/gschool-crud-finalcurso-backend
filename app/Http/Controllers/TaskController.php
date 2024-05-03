@@ -78,7 +78,7 @@ class TaskController extends Controller
 
     public function showTask($id)
     {
-        return response()->json(Task::find($id));
+        return response()->json(Task::with('subtasks')->find($id));
     }
 
     public function updateTask($id, Request $request)
